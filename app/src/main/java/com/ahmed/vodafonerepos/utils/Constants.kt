@@ -33,7 +33,7 @@ object Constants {
     object Headers {
         const val AUTHORIZATION = "Authorization"
         const val ACCEPT = "accept"
-        const val AUTHORIZATION_VALUE = "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"
+        const val AUTHORIZATION_VALUE = ""
         const val ACCEPT_VALUE = "application/json"
     }
 
