@@ -1,4 +1,4 @@
-package com.ahmed.vodafonerepos
+package com.ahmed.vodafonerepos.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -14,8 +14,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.ahmed.vodafonerepos.R
+import com.ahmed.vodafonerepos.ui.repodetails.RepoDetailsScreen
+import com.ahmed.vodafonerepos.ui.repoissues.RepoIssuesList
+import com.ahmed.vodafonerepos.ui.repoissues.RepoIssuesListScreen
+import com.ahmed.vodafonerepos.ui.reposlist.ReposListScreen
 import com.ahmed.vodafonerepos.ui.theme.VodafoneReposTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,12 +33,15 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Greeting(stringResource(id = R.string.app_name))
-                    }
+                    /* Column(
+                         verticalArrangement = Arrangement.Center,
+                         horizontalAlignment = Alignment.CenterHorizontally
+                     ) {
+                         Greeting(stringResource(id = R.string.app_name))
+                     }*/
+                    ReposListScreen()
+//                    RepoDetailsScreen()
+//                    RepoIssuesListScreen()
                 }
             }
         }

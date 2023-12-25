@@ -1,6 +1,7 @@
 buildscript {
     ext {
-        composeUIVersion = '1.2.0'
+        lifeCycleVersion = "2.3.1"
+        composeUIVersion = "1.2.0"
         hiltVersion = "2.44"
         roomVersion = "2.5.0"
         kotlinVersion = "1.9.0"
