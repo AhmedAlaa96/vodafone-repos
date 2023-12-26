@@ -57,6 +57,8 @@ The project includes unit tests to ensure the correctness of implemented feature
 - **v1.0.0 (2023-12-26):** Initial release
     - Implemented main functionality, including repository list, details, and issues screens.
 
+### You can find the latest build [here ↗](https://install.appcenter.ms/users/ahmedalaa/apps/vodafone-repos/distribution_groups/public/releases/1)
+
 ## Contributing
 Contributions are welcome! If you find any bugs or have suggestions for improvements, please submit an issue or create a pull request.
 
