@@ -8,5 +8,5 @@ import com.ahmed.vodafonerepos.ui.base.IBaseUseCase
 import kotlinx.coroutines.flow.Flow
 
 interface IGetRepositoriesListUseCase: IBaseUseCase {
-    fun getRepositoriesListLocally(pageModel: PageModel): Flow<Status<RepoUiResponse>>
+    fun getRepositoriesList(pageModel: PageModel,  shouldCall: Boolean): Flow<Status<RepoUiResponse>>
 }

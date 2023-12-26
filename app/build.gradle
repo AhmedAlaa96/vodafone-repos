@@ -49,6 +49,13 @@ android {
         }
     }
 
+    flavorDimensions "api"
+    productFlavors {
+        live {
+            buildConfigField "String", "BASE_NETWORK_URL", "\"https://api.github.com/\""
+        }
+    }
+
     configurations.all {
         resolutionStrategy {
             force 'androidx.lifecycle:lifecycle-viewmodel:2.5.1'
@@ -65,7 +72,8 @@ dependencies {
     implementation "androidx.compose.ui:ui:$composeUIVersion"
     implementation "androidx.compose.ui:ui-tooling-preview:$composeUIVersion"
     implementation 'androidx.compose.material:material:1.2.0'
-//    implementation "androidx.navigation:navigation-compose:2.7.6"
+    implementation "androidx.navigation:navigation-compose:2.6.0"
+
 
     /* Room */
     implementation "androidx.room:room-runtime:$roomVersion"
@@ -86,6 +94,10 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
     implementation "com.squareup.retrofit2:converter-scalars:$convert_scalars"
+
+
+    implementation "io.coil-kt:coil-compose:2.4.0"
+    implementation "com.google.accompanist:accompanist-swiperefresh:0.31.5-beta"
 
 
     testImplementation "junit:junit:$junitVersion"

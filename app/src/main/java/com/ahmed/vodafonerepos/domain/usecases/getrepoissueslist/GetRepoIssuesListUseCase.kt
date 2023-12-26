@@ -1,5 +1,6 @@
 package com.ahmed.vodafonerepos.domain.usecases.getrepoissueslist
 
+import com.ahmed.vodafonerepos.data.models.PageModel
 import com.ahmed.vodafonerepos.data.models.Status
 import com.ahmed.vodafonerepos.data.models.dto.RepoDetailsRequest
 import com.ahmed.vodafonerepos.data.models.dto.RepoIssueResponse
@@ -10,7 +11,7 @@ import javax.inject.Inject
 
 class GetRepoIssuesListUseCase @Inject constructor(private val repository: IGetRepoIssuesListRepository) :
     BaseUseCase(repository), IGetRepoIssuesListUseCase {
-    override fun getRepoIssuesList(repoDetailsRequest: RepoDetailsRequest?): Flow<Status<ArrayList<RepoIssueResponse>>> {
-        return repository.getRepoIssuesList(repoDetailsRequest)
+    override fun getRepoIssuesList(repoDetailsRequest: RepoDetailsRequest?, pageModel: PageModel): Flow<Status<ArrayList<RepoIssueResponse>>> {
+        return repository.getRepoIssuesList(repoDetailsRequest, pageModel)
     }
 }

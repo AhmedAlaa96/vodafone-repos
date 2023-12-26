@@ -8,6 +8,7 @@ import com.ahmed.vodafonerepos.utils.Constants.URL.OWNER
 import com.ahmed.vodafonerepos.utils.Constants.URL.REPO
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 
 interface ApiInterface {
@@ -25,6 +26,7 @@ interface ApiInterface {
     suspend fun getRepoIssuesList(
         @Path(OWNER) owner: String,
         @Path(REPO) repo: String,
+        @Query("page") page: Int
     ): ArrayList<RepoIssueResponse>
 
 

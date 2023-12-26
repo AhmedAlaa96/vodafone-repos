@@ -1,45 +1,53 @@
 package com.ahmed.vodafonerepos.ui.reposlist
 
+import android.widget.AdapterView.OnItemClickListener
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.ahmed.vodafonerepos.R
 import com.ahmed.vodafonerepos.data.models.dto.RepoResponse
 import com.ahmed.vodafonerepos.ui.base.PagingLoadingScreen
 import com.ahmed.vodafonerepos.utils.alternate
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 
 @Composable
 fun ReposList(
     reposList: ArrayList<RepoResponse>,
+    onItemClickListener: (item: RepoResponse) -> Unit,
     loadingMore: Boolean,
     scrollState: LazyListState,
     isScrolledToBottom: Boolean,
-    onScroll: () -> Unit
+    refreshState: Boolean,
+    onScroll: () -> Unit,
+    onRefresh: () -> Unit
 ) {
-    LazyColumn(
-        state = scrollState
-    ) {
-        items(reposList) { item ->
-            RepoItem(item)
-        }
-        item {
-            if (loadingMore) {
-                // Show a loading indicator or text
-                PagingLoadingScreen()
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(isRefreshing = refreshState),
+        onRefresh = { onRefresh.invoke() }) {
+        LazyColumn(
+            state = scrollState
+        ) {
+            items(reposList, key = {
+                it.repoId ?: 0
+            }) { item ->
+                RepoItem(item, onItemClickListener)
+            }
+            item {
+                if (loadingMore) {
+                    PagingLoadingScreen()
+                }
             }
         }
     }
@@ -52,32 +60,70 @@ fun ReposList(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun RepoItem(item: RepoResponse) {
-    // Compose UI for each item in the list
+fun RepoItem(item: RepoResponse, onItemClickListener: (item: RepoResponse) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxHeight()
-            .padding(dimensionResource(id = R.dimen.size_16))
+            .padding(dimensionResource(id = R.dimen.size_16)),
+        elevation = 5.dp,
+        onClick = {
+            onItemClickListener.invoke((item))
+        }
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start
         ) {
-            Text(
-                text = item.name.alternate(),
-                color = colorResource(id = R.color.black),
-                fontSize = 18.sp
-            )
-            Text(
-                text = item.owner?.login.alternate(),
-                modifier = Modifier.padding(top = 16.dp),
-                color = colorResource(id = R.color.black),
-                fontSize = 14.sp
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalAlignment = Alignment.Top,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.Start,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = item.name.alternate(),
+                        style = MaterialTheme.typography.h4,
+                        color = colorResource(id = R.color.black)
+                    )
+                    Text(
+                        text = item.owner?.login.alternate(),
+                        modifier = Modifier.padding(top = 16.dp),
+                        color = colorResource(id = R.color.gray),
+                        style = MaterialTheme.typography.body1,
+                    )
+                    Text(
+                        text = item.description.alternate(),
+                        modifier = Modifier.padding(top = 16.dp),
+                        color = colorResource(id = R.color.gray),
+                        style = MaterialTheme.typography.subtitle1,
+                    )
+                }
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_star),
+                        contentDescription = "star",
+                        tint = colorResource(
+                            id = R.color.yellow
+                        )
+                    )
+                    Text(
+                        text = "110".alternate(),
+                        color = colorResource(id = R.color.black),
+                        style = MaterialTheme.typography.subtitle1,
+                    )
+                }
+            }
         }
     }
 }

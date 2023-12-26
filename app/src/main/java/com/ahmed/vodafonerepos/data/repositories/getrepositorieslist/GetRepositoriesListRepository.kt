@@ -20,53 +20,42 @@ class GetRepositoriesListRepository @Inject constructor(
     private val connectionUtils: IConnectionUtils,
     private val mIRemoteDataSource: IRemoteDataSource,
     private val mILocalDataSource: ILocalDataSource,
-    private val mIPreferencesDataSource: IPreferencesDataSource,
+    mIPreferencesDataSource: IPreferencesDataSource,
     @IoDispatcher private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BaseRepository(connectionUtils, mIRemoteDataSource, mIPreferencesDataSource, dispatcher),
     IGetRepositoriesListRepository {
-    override fun getRepositoriesList(): Flow<Status<ArrayList<RepoResponse>>> {
-        return safeApiCalls {
-            mIRemoteDataSource.getReposList()
-        }
-    }
-
-    override fun getReposListLocally(pageModel: PageModel): Flow<Status<ArrayList<RepoResponse>>> {
-        return flow {
-            val reposStatus = mILocalDataSource.getAllRepos()
-            if (reposStatus is Status.OfflineData) {
-                val reposList =
-                    reposStatus.data?.subList(
-                        getFromIndex(pageModel.page - 1, reposStatus.data.size),
-                        getToIndex(pageModel.page, reposStatus.data.size),
-                    )
-                        ?.toCollection(
-                            arrayListOf()
-                        )
-                emit(
-                    Status.OfflineData(
-                        reposList,
-                        error = null
-                    )
-                )
-            } else {
-                emit(Status.NoData(error = "No Data"))
+    override fun getRepositoriesList(shouldCall: Boolean): Flow<Status<ArrayList<RepoResponse>>> {
+        return if (connectionUtils.isConnected) {
+            safeApiCalls {
+                if (shouldCall) {
+                    return@safeApiCalls fetchReposList()
+                } else {
+                    val reposList = mILocalDataSource.getAllRepos()
+                    if (reposList.isNotEmpty()) {
+                        return@safeApiCalls reposList
+                    } else {
+                        return@safeApiCalls fetchReposList()
+                    }
+                }
             }
-        }.flowOn((dispatcher))
+        } else {
+            flow {
+                val reposList = mILocalDataSource.getAllRepos()
+                if (reposList.isNotEmpty()) {
+                    emit(Status.OfflineData(reposList, null))
+                } else {
+                    emit(Status.NoNetwork(error = "No Network"))
+                }
+            }.flowOn(dispatcher)
+        }
+
     }
 
-    private fun getFromIndex(page: Int, listSize: Int): Int {
-        return if ((listSize - (page * 10)) < 10) listSize - 1
-        else
-            (page * 10)
-    }
-
-    private fun getToIndex(page: Int, listSize: Int): Int {
-        return if ((listSize - (page * 10)) < 10) listSize - 1
-        else
-            (page * 10) - 1
-    }
-
-    override fun insertReposListLocally(reposList: ArrayList<RepoResponse>): Flow<Unit> {
-        return flow { emit(mILocalDataSource.insertRepos(reposList)) }.flowOn((dispatcher))
+    private suspend fun fetchReposList(): ArrayList<RepoResponse> {
+        val list = mIRemoteDataSource.getReposList()
+        if (list.isNotEmpty()) {
+            mILocalDataSource.insertRepos(list)
+        }
+        return list
     }
 }

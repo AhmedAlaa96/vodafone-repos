@@ -5,7 +5,7 @@ import com.ahmed.vodafonerepos.data.models.dto.RepoResponse
 
 interface ILocalDataSource {
 
-    suspend fun getAllRepos(): Status<ArrayList<RepoResponse>>
+    suspend fun getAllRepos(): ArrayList<RepoResponse>
     suspend fun insertRepos(reposList: ArrayList<RepoResponse>)
 
 }

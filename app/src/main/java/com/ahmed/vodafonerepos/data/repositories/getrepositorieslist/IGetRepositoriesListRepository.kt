@@ -7,9 +7,5 @@ import com.ahmed.vodafonerepos.ui.base.IBaseRepository
 import kotlinx.coroutines.flow.Flow
 
 interface IGetRepositoriesListRepository: IBaseRepository {
-    fun getRepositoriesList(): Flow<Status<ArrayList<RepoResponse>>>
-
-    fun getReposListLocally(pageModel: PageModel): Flow<Status<ArrayList<RepoResponse>>>
-
-    fun insertReposListLocally(reposList: ArrayList<RepoResponse>) : Flow<Unit>
+    fun getRepositoriesList(shouldCall: Boolean): Flow<Status<ArrayList<RepoResponse>>>
 }

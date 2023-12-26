@@ -1,6 +1,7 @@
 package com.ahmed.vodafonerepos.data.repositories.getrepoissuesList
 
 import com.ahmed.vodafonerepos.data.local.ILocalDataSource
+import com.ahmed.vodafonerepos.data.models.PageModel
 import com.ahmed.vodafonerepos.data.models.Status
 import com.ahmed.vodafonerepos.data.models.dto.RepoDetailsRequest
 import com.ahmed.vodafonerepos.data.models.dto.RepoIssueResponse
@@ -22,9 +23,9 @@ class GetRepoIssuesListRepository @Inject constructor(
     @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BaseRepository(connectionUtils, mIRemoteDataSource, mIPreferencesDataSource, dispatcher),
     IGetRepoIssuesListRepository {
-    override fun getRepoIssuesList(repoDetailsRequest: RepoDetailsRequest?): Flow<Status<ArrayList<RepoIssueResponse>>> {
+    override fun getRepoIssuesList(repoDetailsRequest: RepoDetailsRequest?, pageModel: PageModel): Flow<Status<ArrayList<RepoIssueResponse>>> {
         return safeApiCalls {
-            mIRemoteDataSource.getRepoIssuesList(repoDetailsRequest)
+            mIRemoteDataSource.getRepoIssuesList(repoDetailsRequest, pageModel)
         }
     }
 }
