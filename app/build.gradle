@@ -49,9 +49,10 @@ android {
         }
     }
 
-    externalNativeBuild {
-        cmake {
-            path "src/jni/CMakeLists.txt"
+    flavorDimensions "api"
+    productFlavors {
+        live {
+            buildConfigField "String", "BASE_NETWORK_URL", "\"https://api.github.com/\""
         }
     }
 
