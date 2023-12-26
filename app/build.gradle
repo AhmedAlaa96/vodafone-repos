@@ -88,6 +88,10 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-scalars:$convert_scalars"
 
 
+    implementation "io.coil-kt:coil-compose:2.4.0"
+    implementation "com.google.accompanist:accompanist-swiperefresh:0.31.5-beta"
+
+
     testImplementation "junit:junit:$junitVersion"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"

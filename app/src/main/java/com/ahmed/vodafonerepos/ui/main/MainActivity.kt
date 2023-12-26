@@ -39,9 +39,9 @@ class MainActivity : ComponentActivity() {
                      ) {
                          Greeting(stringResource(id = R.string.app_name))
                      }*/
-                    ReposListScreen()
+//                    ReposListScreen()
 //                    RepoDetailsScreen()
-//                    RepoIssuesListScreen()
+                    RepoIssuesListScreen()
                 }
             }
         }

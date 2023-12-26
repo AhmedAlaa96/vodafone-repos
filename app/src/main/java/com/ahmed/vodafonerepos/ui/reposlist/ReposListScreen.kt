@@ -27,8 +27,6 @@ fun ReposListScreen(
 
     viewModel.getReposListResponse()
     var loadingMore by remember { mutableStateOf(false) }
-
-    // Detect if the user has scrolled to the end of the list
     val scrollState = rememberLazyListState()
     val isScrolledToBottom by remember(scrollState) {
         derivedStateOf {
@@ -40,11 +38,7 @@ fun ReposListScreen(
     }
     Box(modifier = Modifier.fillMaxSize()) {
         if (loading.shouldShow && status.isIdle()) {
-            if (loading.progressType == ProgressTypes.PAGING_PROGRESS) {
-                loadingMore = true
-            } else {
-                MainLoadingScreen()
-            }
+            MainLoadingScreen()
         } else {
             Column(
                 verticalArrangement = Arrangement.Center,

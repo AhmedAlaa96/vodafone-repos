@@ -50,7 +50,7 @@ class GetRepositoriesListViewModel @Inject constructor(
     }
 
     internal fun onScroll() {
-        if (!isLoading) {
+        if (!isLoading && shouldLoadMore) {
             val handler = CoroutineExceptionHandler { _, exception ->
                 viewModelScope.launch {
                     setReposResponseStatus(Status.Error(error = exception.message))

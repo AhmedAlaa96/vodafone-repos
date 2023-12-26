@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Vodafone Repos</string>
+    <string name="issues">Issues</string>
+    <string name="stars_count">Stars</string>
+    <string name="watching_count">Watching</string>
+    <string name="forks_count">forks</string>
+    <string name="issues_count">Open Issues</string>
+    <string name="author">Author: %s</string>
+    <string name="invalid_url">Sorry this is invalid url.</string>
 </resources>

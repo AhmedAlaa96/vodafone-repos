@@ -1,8 +1,10 @@
 package com.ahmed.vodafonerepos.utils
 
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Build
 import com.ahmed.vodafonerepos.BuildConfig
 import java.lang.Exception
@@ -37,8 +39,8 @@ object Utils {
         }
     }
 
-    fun roundTheNumber(numInDouble: Double?): String {
-        return if(numInDouble == null) Constants.General.DASH_TEXT
-        else "%.1f".format((numInDouble))
+    fun openUrlInBrowser(context: Context, url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        context.startActivity(intent)
     }
 }

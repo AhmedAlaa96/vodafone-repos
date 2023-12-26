@@ -31,7 +31,7 @@ class GetRepoDetailsViewModel @Inject constructor(
     private var repoDetailsRequest: RepoDetailsRequest?
 
     init {
-        repoDetailsRequest = RepoDetailsRequest("octocat", "Hello-World")
+        repoDetailsRequest = RepoDetailsRequest("flutter", "flutter")
 //        repoDetailsRequest = handle.get<RepoDetailsRequest>("repoDetailsRequest")
     }
 

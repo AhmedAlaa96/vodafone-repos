@@ -5,16 +5,16 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object DateTimeHelper {
-    private const val DATE_FORMAT_YYYY_MM_DD = "yyyy-MM-dd"
-    private const val DATE_FORMAT_YYYY_MMM = "yyyy, MMM"
+    private const val DATE_FORMAT_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:SS'Z'"
+    private const val DATE_FORMAT_YYYY_MMM = "yyyy, MMM dd 'at' hh:mm a"
 
     fun convertDateStringToAnotherFormat(
         dateString: String?,
-        dateParserFormat: String = DATE_FORMAT_YYYY_MM_DD,
+        dateParserFormat: String = DATE_FORMAT_YYYY_MM_DD_HH_MM_SS,
         dateFormatter: String = DATE_FORMAT_YYYY_MMM,
         desiredLocale: Locale = Locale.getDefault(),
-        alternateValue: String? = Constants.General.DASH_TEXT
-    ): String? {
+        alternateValue: String = Constants.General.DASH_TEXT
+    ): String {
         if (dateString.isNullOrEmpty()) {
             return alternateValue
         }
@@ -27,8 +27,4 @@ object DateTimeHelper {
         }
         return alternateValue
     }
-
-    fun getDurationPair(duration: Int?): Pair<Int, Int> =
-        Pair((duration ?: 0) / 60, (duration ?: 0) % 60)
-
 }
