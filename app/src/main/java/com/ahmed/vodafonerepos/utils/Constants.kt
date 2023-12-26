@@ -18,14 +18,12 @@ object Constants {
     }
 
     object URL {
-        const val BASE_URL = "https://api.themoviedb.org/3/"
-        const val GET_MOVIES = "discover/movie"
-        const val GET_MOVIE_DETAILS = "movie/{movieId}?language=en-US"
-        private const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"
-        fun getImageUrl(posterPath: String?): String? {
-            return if (posterPath.isNullOrEmpty()) null
-            else "$IMAGE_BASE_URL$posterPath"
-        }
+        const val BASE_URL = "https://api.github.com/"
+        const val GET_REPOS_LIST = "repositories"
+        const val OWNER = "owner"
+        const val REPO = "repo"
+        const val GET_REPO_DETAILS = "repos/{${OWNER}}/{${REPO}}"
+        const val GET_REPO_ISSUES = "$GET_REPO_DETAILS/issues"
     }
 
     object QueryParams {

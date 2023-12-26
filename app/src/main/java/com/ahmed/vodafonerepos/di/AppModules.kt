@@ -7,6 +7,7 @@ import com.ahmed.vodafonerepos.data.local.LocalDataSource
 import com.ahmed.vodafonerepos.data.remote.IRemoteDataSource
 import com.ahmed.vodafonerepos.data.remote.RemoteDataSource
 import com.ahmed.vodafonerepos.data.room.AppDatabase
+import com.ahmed.vodafonerepos.data.roommodels.OwnerConverter
 import com.ahmed.vodafonerepos.data.sharedprefrences.IPreferencesDataSource
 import com.ahmed.vodafonerepos.data.sharedprefrences.PreferencesDataSource
 import com.ahmed.vodafonerepos.retrofit.ApiInterface
@@ -33,16 +34,16 @@ internal class AppModule {
     fun provideGson(): Gson {
         return GsonBuilder().serializeNulls().create()
     }
-//
-//    @Provides
-//    @Singleton
-//    fun provideAppDatabase(@ApplicationContext applicationContext: Context): AppDatabase {
-//        return Room.databaseBuilder(
-//            applicationContext,
-//            AppDatabase::class.java, "vodafone-repos"
-//        )
-//            .build()
-//    }
+
+    @Provides
+    @Singleton
+    fun provideAppDatabase(@ApplicationContext applicationContext: Context): AppDatabase {
+        return Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java, "vodafone-repos"
+        ).addTypeConverter(OwnerConverter())
+            .build()
+    }
 
     @Provides
     @Singleton
