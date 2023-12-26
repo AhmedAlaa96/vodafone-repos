@@ -4,6 +4,8 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,9 +15,9 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.ahmed.vodafonerepos.R
 import com.ahmed.vodafonerepos.data.models.dto.RepoDetailsResponse
 import com.ahmed.vodafonerepos.ui.base.NetworkImage
@@ -27,20 +29,19 @@ import com.ahmed.vodafonerepos.utils.utilities.UIUtils
 @Composable
 fun RepoDetailsContent(
     repoDetailsResponse: RepoDetailsResponse,
+    onIssuesClicked: (repoDetailsResponse: RepoDetailsResponse) -> Unit
 ) {
-    val context = LocalContext.current
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        Toolbar(title = "${repoDetailsResponse.owner?.login.alternate()}/${repoDetailsResponse.name.alternate()}", hasBackButton = true){
-            UIUtils.showToast(context = context, "on back pressed")
-        }
         Card(
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(1f)
+                .verticalScroll(rememberScrollState())
                 .padding(dimensionResource(id = R.dimen.size_16)),
             elevation = 5.dp,
         ) {
@@ -112,7 +113,7 @@ fun RepoDetailsContent(
 
         Button(
             onClick = {
-                UIUtils.showToast(context = context, "Clicked on Issue")
+                onIssuesClicked.invoke(repoDetailsResponse)
             }, modifier = Modifier
                 .fillMaxWidth()
                 .height(80.dp)

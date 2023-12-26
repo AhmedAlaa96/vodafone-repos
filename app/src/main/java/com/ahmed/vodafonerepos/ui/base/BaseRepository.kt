@@ -38,7 +38,7 @@ abstract class BaseRepository(
                     Utils.printStackTrace(throwable)
                     when (throwable) {
                         is HttpException -> {
-                            emit(Status.Error(error = throwable.message)) as Unit
+                            emit(Status.Error(error = "Something Went Wrong")) as Unit
                         }
                         is SocketException -> {
                             emit(Status.Error(error = throwable.message)) as Unit

@@ -1,13 +1,11 @@
 package com.ahmed.vodafonerepos.ui.reposlist
 
+import android.widget.AdapterView.OnItemClickListener
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
@@ -20,27 +18,36 @@ import com.ahmed.vodafonerepos.R
 import com.ahmed.vodafonerepos.data.models.dto.RepoResponse
 import com.ahmed.vodafonerepos.ui.base.PagingLoadingScreen
 import com.ahmed.vodafonerepos.utils.alternate
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 
 @Composable
 fun ReposList(
     reposList: ArrayList<RepoResponse>,
+    onItemClickListener: (item: RepoResponse) -> Unit,
     loadingMore: Boolean,
     scrollState: LazyListState,
     isScrolledToBottom: Boolean,
-    onScroll: () -> Unit
+    refreshState: Boolean,
+    onScroll: () -> Unit,
+    onRefresh: () -> Unit
 ) {
-    LazyColumn(
-        state = scrollState
-    ) {
-        items(reposList, key = {
-            it.repoId ?: 0
-        }) { item ->
-            RepoItem(item)
-        }
-        item {
-            if (loadingMore) {
-                PagingLoadingScreen()
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(isRefreshing = refreshState),
+        onRefresh = { onRefresh.invoke() }) {
+        LazyColumn(
+            state = scrollState
+        ) {
+            items(reposList, key = {
+                it.repoId ?: 0
+            }) { item ->
+                RepoItem(item, onItemClickListener)
+            }
+            item {
+                if (loadingMore) {
+                    PagingLoadingScreen()
+                }
             }
         }
     }
@@ -53,13 +60,17 @@ fun ReposList(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun RepoItem(item: RepoResponse) {
+fun RepoItem(item: RepoResponse, onItemClickListener: (item: RepoResponse) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxHeight()
             .padding(dimensionResource(id = R.dimen.size_16)),
         elevation = 5.dp,
+        onClick = {
+            onItemClickListener.invoke((item))
+        }
     ) {
         Column(
             modifier = Modifier

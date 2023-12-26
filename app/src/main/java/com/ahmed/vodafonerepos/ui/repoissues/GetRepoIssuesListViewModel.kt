@@ -8,10 +8,12 @@ import com.ahmed.vodafonerepos.data.models.Status
 import com.ahmed.vodafonerepos.data.models.StatusCode
 import com.ahmed.vodafonerepos.data.models.dto.RepoDetailsRequest
 import com.ahmed.vodafonerepos.data.models.dto.RepoIssueResponse
+import com.ahmed.vodafonerepos.data.models.dto.RepoResponse
 import com.ahmed.vodafonerepos.data.models.dto.RepoUiResponse
 import com.ahmed.vodafonerepos.di.MainDispatcher
 import com.ahmed.vodafonerepos.domain.usecases.getrepoissueslist.IGetRepoIssuesListUseCase
 import com.ahmed.vodafonerepos.ui.base.BasePagingViewModel
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -23,18 +25,22 @@ import javax.inject.Inject
 class GetRepoIssuesListViewModel @Inject constructor(
     private val mIGetRepoIssuesUseCase: IGetRepoIssuesListUseCase,
     @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
+    private val mGson: Gson,
     handle: SavedStateHandle
 ) : BasePagingViewModel(handle, mIGetRepoIssuesUseCase) {
 
     private var repoIssuesResponseStatus: Status<ArrayList<RepoIssueResponse>>? = null
 
-    private var repoIssuesRequest: RepoDetailsRequest?
+    val state: Status<ArrayList<RepoIssueResponse>>?
+        get() = repoIssuesResponseStatus
 
     private val mPageModel = PageModel()
+    private var repoDetailsRequest: RepoDetailsRequest = RepoDetailsRequest("", "")
 
     init {
-        repoIssuesRequest = RepoDetailsRequest("flutter", "flutter")
-//        repoIssuesRequest = handle.get<RepoIssuesRequest>("repoIssuesRequest")
+        handle.get<String>("repoDetailsRequest")?.let {
+            repoDetailsRequest = mGson.fromJson(it, RepoDetailsRequest::class.java)
+        }
     }
 
     private val _repoIssuesResponseMutableSharedFlow =
@@ -108,7 +114,7 @@ class GetRepoIssuesListViewModel @Inject constructor(
         shouldClear: Boolean = true
     ) {
         onGetRepoIssuesSubscribe(progressType)
-        mIGetRepoIssuesUseCase.getRepoIssuesList(repoIssuesRequest, mPageModel)
+        mIGetRepoIssuesUseCase.getRepoIssuesList(repoDetailsRequest, mPageModel)
             .onStart {
                 showProgress(true, progressType)
             }.onCompletion {
@@ -135,13 +141,27 @@ class GetRepoIssuesListViewModel @Inject constructor(
                 clearData(shouldClear)
                 val reposList = reposListResponse.data!!
                 val currentList = repoIssuesResponseStatus?.data ?: ArrayList()
+                if (reposList.size < 30) {
+                    shouldLoadMore = false
+                } else {
+                    mPageModel.incrementPageNumber()
+                }
                 currentList.addAll(reposList)
-                mPageModel.incrementPageNumber()
-                setRepoIssuesResponseStatus(Status.Success(currentList))
+                val status = if (currentList.isEmpty())
+                    Status.NoData(error = "No Data")
+                else {
+                    Status.Success(currentList)
+                }
+                setRepoIssuesResponseStatus(status)
             }
             StatusCode.NO_DATA -> {
                 shouldLoadMore = false
-                repoIssuesResponseStatus?.let { setRepoIssuesResponseStatus(it) }
+                val currentList = repoIssuesResponseStatus?.data ?: ArrayList()
+                if (currentList.isEmpty()) {
+                    setRepoIssuesResponseStatus(Status.NoData(error = "No Data"))
+                } else {
+                    repoIssuesResponseStatus?.let { setRepoIssuesResponseStatus(it) }
+                }
             }
             else -> {
                 if (!repoIssuesResponseStatus?.data.isNullOrEmpty()) {
