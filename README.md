@@ -57,7 +57,11 @@ The project includes unit tests to ensure the correctness of implemented feature
 - **v1.0.0 (2023-12-26):** Initial release
     - Implemented main functionality, including repository list, details, and issues screens.
 
-### You can find the latest build [here ↗](https://install.appcenter.ms/users/ahmedalaa/apps/vodafone-repos/distribution_groups/public/releases/1)
+- **v1.0.1 (2023-12-28):** Enhanced release
+    - Bug fixing & Enhancement
+    - Add Dark mode handling
+
+### You can find the latest build [here ↗](https://install.appcenter.ms/users/ahmedalaa/apps/vodafone-repos/distribution_groups/public/releases/2)
 
 ## Contributing
 Contributions are welcome! If you find any bugs or have suggestions for improvements, please submit an issue or create a pull request.

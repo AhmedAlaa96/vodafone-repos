@@ -1,11 +1,8 @@
 package com.ahmed.vodafonerepos.ui.base
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,8 +12,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.ahmed.vodafonerepos.R
+import com.ahmed.vodafonerepos.ui.theme.Black
+import com.ahmed.vodafonerepos.ui.theme.White
 
 @Composable
 fun ErrorLayout(
@@ -33,7 +31,7 @@ fun ErrorLayout(
         Icon(
             painter = painterResource(id = icon),
             contentDescription = "error icon",
-            tint = colorResource(id = R.color.gray),
+            tint = MaterialTheme.colors.secondaryVariant,
             modifier = Modifier.size(
                 dimensionResource(id = R.dimen.size_100)
             )
@@ -41,7 +39,10 @@ fun ErrorLayout(
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_16)))
         Text(
             text = title,
-            style = MaterialTheme.typography.h4,
+            style = MaterialTheme.typography.h4
+                .copy(
+                    color = MaterialTheme.colors.primary
+                ),
             textAlign = TextAlign.Center,
         )
         if (!subTitle.isNullOrEmpty()) {
@@ -49,7 +50,7 @@ fun ErrorLayout(
             Text(
                 text = subTitle,
                 style = MaterialTheme.typography.body2.copy(
-                    color = colorResource(id = R.color.gray)
+                    color = MaterialTheme.colors.secondaryVariant
                 ),
                 textAlign = TextAlign.Center,
             )
@@ -60,23 +61,24 @@ fun ErrorLayout(
             Button(
                 onClick = {
                     onRetryBtnClicked.invoke()
-                }, modifier = Modifier
+                },
+                modifier = Modifier
                     .fillMaxWidth()
-                    .height(80.dp)
+                    .height(dimensionResource(id = R.dimen.size_80))
                     .padding(
                         horizontal = dimensionResource(id = R.dimen.size_50),
                         vertical = dimensionResource(id = R.dimen.size_16)
                     ),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = colorResource(id = R.color.black),
-                    contentColor = colorResource(id = R.color.white)
+                    backgroundColor = Black,
+                    contentColor = White
                 )
             ) {
                 Text(
                     text = stringResource(id = R.string.retry),
-                    color = colorResource(id = R.color.white),
                     style = MaterialTheme.typography.body2.copy(
-                        fontWeight = FontWeight.Medium
+                        fontWeight = FontWeight.Medium,
+                        color = White,
                     ),
                 )
             }
