@@ -1,6 +1,5 @@
 package com.ahmed.vodafonerepos.ui.reposlist
 
-import android.widget.AdapterView.OnItemClickListener
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -12,11 +11,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.style.TextOverflow
 import com.ahmed.vodafonerepos.R
 import com.ahmed.vodafonerepos.data.models.dto.RepoResponse
 import com.ahmed.vodafonerepos.ui.base.PagingLoadingScreen
+import com.ahmed.vodafonerepos.ui.theme.LINE_1
+import com.ahmed.vodafonerepos.ui.theme.LINE_2
 import com.ahmed.vodafonerepos.utils.alternate
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -67,7 +67,7 @@ fun RepoItem(item: RepoResponse, onItemClickListener: (item: RepoResponse) -> Un
         modifier = Modifier
             .fillMaxHeight()
             .padding(dimensionResource(id = R.dimen.size_16)),
-        elevation = 5.dp,
+        elevation = dimensionResource(id = R.dimen.corner_radius_5),
         onClick = {
             onItemClickListener.invoke((item))
         }
@@ -75,7 +75,7 @@ fun RepoItem(item: RepoResponse, onItemClickListener: (item: RepoResponse) -> Un
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(dimensionResource(id = R.dimen.size_16)),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start
         ) {
@@ -93,34 +93,29 @@ fun RepoItem(item: RepoResponse, onItemClickListener: (item: RepoResponse) -> Un
                     Text(
                         text = item.name.alternate(),
                         style = MaterialTheme.typography.h4,
-                        color = colorResource(id = R.color.black)
-                    )
+                        color = MaterialTheme.colors.primary,
+                        overflow = TextOverflow.Ellipsis,
+                        minLines = LINE_1,
+                        maxLines = LINE_1,
+
+                        )
                     Text(
                         text = item.owner?.login.alternate(),
-                        modifier = Modifier.padding(top = 16.dp),
-                        color = colorResource(id = R.color.gray),
+                        modifier = Modifier.padding(top = dimensionResource(id = R.dimen.size_16)),
+                        color = MaterialTheme.colors.secondaryVariant,
                         style = MaterialTheme.typography.body1,
+                        overflow = TextOverflow.Ellipsis,
+                        minLines = LINE_1,
+                        maxLines = LINE_1,
                     )
                     Text(
                         text = item.description.alternate(),
-                        modifier = Modifier.padding(top = 16.dp),
-                        color = colorResource(id = R.color.gray),
+                        modifier = Modifier.padding(top = dimensionResource(id = R.dimen.size_16)),
+                        color = MaterialTheme.colors.secondaryVariant,
                         style = MaterialTheme.typography.subtitle1,
-                    )
-                }
-
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_star),
-                        contentDescription = "star",
-                        tint = colorResource(
-                            id = R.color.yellow
-                        )
-                    )
-                    Text(
-                        text = "110".alternate(),
-                        color = colorResource(id = R.color.black),
-                        style = MaterialTheme.typography.subtitle1,
+                        overflow = TextOverflow.Ellipsis,
+                        minLines = LINE_2,
+                        maxLines = LINE_2,
                     )
                 }
             }
