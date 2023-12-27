@@ -16,8 +16,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.ahmed.vodafonerepos.R
 import com.ahmed.vodafonerepos.data.models.dto.RepoDetailsResponse
 import com.ahmed.vodafonerepos.ui.base.NetworkImage
@@ -43,12 +41,12 @@ fun RepoDetailsContent(
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
                 .padding(dimensionResource(id = R.dimen.size_16)),
-            elevation = 5.dp,
+            elevation = dimensionResource(id = R.dimen.size_5),
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
+                    .padding(dimensionResource(id = R.dimen.size_16)),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.Start
             ) {
@@ -77,7 +75,7 @@ fun RepoDetailsContent(
 
                 Text(
                     text = repoDetailsResponse.description.alternate(),
-                    modifier = Modifier.padding(top = 16.dp),
+                    modifier = Modifier.padding(top = dimensionResource(id = R.dimen.size_16)),
                     color = colorResource(id = R.color.gray),
                     style = MaterialTheme.typography.subtitle1,
                 )
@@ -116,7 +114,7 @@ fun RepoDetailsContent(
                 onIssuesClicked.invoke(repoDetailsResponse)
             }, modifier = Modifier
                 .fillMaxWidth()
-                .height(80.dp)
+                .height(dimensionResource(id = R.dimen.size_80))
                 .padding(dimensionResource(id = R.dimen.size_16)),
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = colorResource(id = R.color.black),
