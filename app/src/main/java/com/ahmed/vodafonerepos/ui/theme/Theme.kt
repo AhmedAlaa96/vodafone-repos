@@ -10,7 +10,13 @@ private val DarkColorPalette = darkColors(
     primary = White,
     primaryVariant = White,
     secondary = Black,
-
+    onPrimary = White,
+    onSurface = Black,
+    background = Black,
+    surface = Black,
+    onSecondary = White,
+    onBackground = White,
+    secondaryVariant = nightGray
 )
 
 private val LightColorPalette = lightColors(
@@ -19,15 +25,11 @@ private val LightColorPalette = lightColors(
     secondary = White,
     onPrimary = Black,
     onSurface = White,
-
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
+    background = White,
+    surface = White,
+    onSecondary = Black,
+    onBackground = Black,
+    secondaryVariant = Gray
 )
 
 @Composable
@@ -35,11 +37,11 @@ fun VodafoneReposTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colors = /*if (darkTheme) {
+    val colors = if (darkTheme) {
         DarkColorPalette
     } else {
         LightColorPalette
-    }*/  LightColorPalette
+    }
 
     MaterialTheme(
         colors = colors,

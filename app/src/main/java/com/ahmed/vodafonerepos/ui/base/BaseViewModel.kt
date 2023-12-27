@@ -20,12 +20,18 @@ abstract class BaseViewModel(
     var errorViewObservable = MutableSharedFlow<Boolean>()
     var showToastObservable = MutableSharedFlow<String>()
 
+    private var _loadingModel: LoadingModel? = null
+
+    val loadingModel: LoadingModel?
+        get() = _loadingModel
+
     protected fun showProgress(
         shouldShow: Boolean,
         progressType: ProgressTypes = ProgressTypes.MAIN_PROGRESS
     ) {
         viewModelScope.launch {
-            loadingObservable.emit(LoadingModel(shouldShow, progressType))
+            _loadingModel = LoadingModel(shouldShow, progressType)
+            loadingObservable.emit(_loadingModel!!)
         }
     }
 

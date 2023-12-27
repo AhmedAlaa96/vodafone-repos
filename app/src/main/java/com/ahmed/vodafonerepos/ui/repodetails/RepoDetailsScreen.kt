@@ -29,7 +29,7 @@ fun RepoDetailsScreen(
     navHostController: NavHostController
 ) {
     val status by viewModel.repoDetailsSharedFlow.collectAsState(viewModel.status ?: Status.Idle())
-    val loading by viewModel.loadingObservable.collectAsState(LoadingModel(false))
+    val loading by viewModel.loadingObservable.collectAsState(viewModel.loadingModel ?: LoadingModel(true))
 
     viewModel.getRepoDetails()
     Box(modifier = Modifier.fillMaxSize()) {

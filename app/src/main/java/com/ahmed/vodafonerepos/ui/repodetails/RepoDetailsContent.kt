@@ -10,7 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -19,9 +19,10 @@ import androidx.compose.ui.text.font.FontWeight
 import com.ahmed.vodafonerepos.R
 import com.ahmed.vodafonerepos.data.models.dto.RepoDetailsResponse
 import com.ahmed.vodafonerepos.ui.base.NetworkImage
-import com.ahmed.vodafonerepos.ui.base.Toolbar
+import com.ahmed.vodafonerepos.ui.theme.Black
+import com.ahmed.vodafonerepos.ui.theme.White
+import com.ahmed.vodafonerepos.ui.theme.Yellow
 import com.ahmed.vodafonerepos.utils.alternate
-import com.ahmed.vodafonerepos.utils.utilities.UIUtils
 
 
 @Composable
@@ -41,7 +42,7 @@ fun RepoDetailsContent(
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
                 .padding(dimensionResource(id = R.dimen.size_16)),
-            elevation = dimensionResource(id = R.dimen.size_5),
+            elevation = dimensionResource(id = R.dimen.corner_radius_5),
         ) {
             Column(
                 modifier = Modifier
@@ -61,7 +62,7 @@ fun RepoDetailsContent(
                             repoDetailsResponse.owner?.login.alternate()
                         ),
                         modifier = Modifier.padding(start = dimensionResource(id = R.dimen.size_16)),
-                        color = colorResource(id = R.color.black),
+                        color = MaterialTheme.colors.primary,
                         style = MaterialTheme.typography.h5,
                     )
                 }
@@ -70,39 +71,39 @@ fun RepoDetailsContent(
                     text = repoDetailsResponse.name.alternate(),
                     modifier = Modifier.padding(top = dimensionResource(id = R.dimen.size_16)),
                     style = MaterialTheme.typography.h4,
-                    color = colorResource(id = R.color.black)
+                    color = MaterialTheme.colors.primary
                 )
 
                 Text(
                     text = repoDetailsResponse.description.alternate(),
                     modifier = Modifier.padding(top = dimensionResource(id = R.dimen.size_16)),
-                    color = colorResource(id = R.color.gray),
+                    color = MaterialTheme.colors.secondaryVariant,
                     style = MaterialTheme.typography.subtitle1,
                 )
                 NumberIconTitle(
                     R.drawable.ic_star,
-                    R.color.yellow,
+                    Yellow,
                     R.string.stars_count,
                     repoDetailsResponse.stargazersCount.toString().alternate("0")
                 )
 
                 NumberIconTitle(
                     R.drawable.ic_watching,
-                    R.color.gray,
+                    MaterialTheme.colors.secondaryVariant,
                     R.string.watching_count,
                     repoDetailsResponse.watchersCount.toString().alternate("0")
                 )
 
                 NumberIconTitle(
                     R.drawable.ic_fork,
-                    R.color.gray,
+                    MaterialTheme.colors.secondaryVariant,
                     R.string.forks_count,
                     repoDetailsResponse.forksCount.toString().alternate("0")
                 )
 
                 NumberIconTitle(
                     R.drawable.ic_oppend_issues,
-                    R.color.gray,
+                    MaterialTheme.colors.secondaryVariant,
                     R.string.issues_count,
                     repoDetailsResponse.openIssuesCount.toString().alternate("0")
                 )
@@ -112,20 +113,25 @@ fun RepoDetailsContent(
         Button(
             onClick = {
                 onIssuesClicked.invoke(repoDetailsResponse)
-            }, modifier = Modifier
+            },
+            modifier = Modifier
                 .fillMaxWidth()
-                .height(dimensionResource(id = R.dimen.size_80))
-                .padding(dimensionResource(id = R.dimen.size_16)),
+                .height(dimensionResource(id = R.dimen.size_70))
+                .padding(
+                    vertical = dimensionResource(id = R.dimen.size_8),
+                    horizontal = dimensionResource(id = R.dimen.size_16)
+                ),
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = colorResource(id = R.color.black),
-                contentColor = colorResource(id = R.color.white)
-            )
-        ) {
+                backgroundColor = Black,
+                contentColor = White
+            ),
+
+            ) {
             Text(
                 text = stringResource(id = R.string.issues),
-                color = colorResource(id = R.color.white),
                 style = MaterialTheme.typography.body2.copy(
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Medium,
+                    color = White,
                 ),
             )
         }
@@ -137,7 +143,7 @@ fun RepoDetailsContent(
 @Composable
 fun NumberIconTitle(
     @DrawableRes icon: Int,
-    @ColorRes iconColor: Int,
+    iconColor: Color,
     @StringRes label: Int,
     numberCount: String
 ) {
@@ -146,16 +152,14 @@ fun NumberIconTitle(
         modifier = Modifier.padding(top = dimensionResource(id = R.dimen.size_8)),
     ) {
         Icon(
-            painter = painterResource(id = icon), contentDescription = "Icon", tint = colorResource(
-                id = iconColor
-            )
+            painter = painterResource(id = icon), contentDescription = "Icon", tint = iconColor
         )
 
         Text(
             text = numberCount,
             modifier = Modifier.padding(start = dimensionResource(id = R.dimen.size_4)),
             style = MaterialTheme.typography.body2.copy(
-                color = colorResource(id = R.color.black),
+                color = MaterialTheme.colors.primary,
                 fontWeight = FontWeight.Medium
             ),
         )
@@ -165,7 +169,7 @@ fun NumberIconTitle(
             ),
             modifier = Modifier.padding(start = dimensionResource(id = R.dimen.size_4)),
             style = MaterialTheme.typography.body2.copy(
-                color = colorResource(id = R.color.black),
+                color = MaterialTheme.colors.primary,
                 fontWeight = FontWeight.Bold
             ),
         )

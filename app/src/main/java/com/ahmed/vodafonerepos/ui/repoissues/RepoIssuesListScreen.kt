@@ -28,7 +28,7 @@ fun RepoIssuesListScreen(
     navHostController: NavHostController
 ) {
     val status by viewModel.repoIssuesSharedFlow.collectAsState(viewModel.state ?: Status.Idle())
-    val loading by viewModel.loadingObservable.collectAsState(LoadingModel(false))
+    val loading by viewModel.loadingObservable.collectAsState(viewModel.loadingModel ?: LoadingModel(true))
 
     viewModel.getRepoIssues()
     var loadingMore by remember { mutableStateOf(false) }

@@ -29,7 +29,7 @@ fun ReposListScreen(
     navHostController: NavHostController
 ) {
     val status by viewModel.reposResponseSharedFlow.collectAsState(viewModel.state ?: Status.Idle())
-    val loading by viewModel.loadingObservable.collectAsState(LoadingModel(false))
+    val loading by viewModel.loadingObservable.collectAsState(viewModel.loadingModel ?: LoadingModel(true))
 
     viewModel.getReposListResponse()
     var loadingMore by remember { mutableStateOf(false) }

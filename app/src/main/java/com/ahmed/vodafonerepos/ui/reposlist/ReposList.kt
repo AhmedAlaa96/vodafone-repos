@@ -67,7 +67,7 @@ fun RepoItem(item: RepoResponse, onItemClickListener: (item: RepoResponse) -> Un
         modifier = Modifier
             .fillMaxHeight()
             .padding(dimensionResource(id = R.dimen.size_16)),
-        elevation = dimensionResource(id = R.dimen.size_5),
+        elevation = dimensionResource(id = R.dimen.corner_radius_5),
         onClick = {
             onItemClickListener.invoke((item))
         }
@@ -93,7 +93,7 @@ fun RepoItem(item: RepoResponse, onItemClickListener: (item: RepoResponse) -> Un
                     Text(
                         text = item.name.alternate(),
                         style = MaterialTheme.typography.h4,
-                        color = colorResource(id = R.color.black),
+                        color = MaterialTheme.colors.primary,
                         overflow = TextOverflow.Ellipsis,
                         minLines = LINE_1,
                         maxLines = LINE_1,
@@ -102,7 +102,7 @@ fun RepoItem(item: RepoResponse, onItemClickListener: (item: RepoResponse) -> Un
                     Text(
                         text = item.owner?.login.alternate(),
                         modifier = Modifier.padding(top = dimensionResource(id = R.dimen.size_16)),
-                        color = colorResource(id = R.color.gray),
+                        color = MaterialTheme.colors.secondaryVariant,
                         style = MaterialTheme.typography.body1,
                         overflow = TextOverflow.Ellipsis,
                         minLines = LINE_1,
@@ -111,7 +111,7 @@ fun RepoItem(item: RepoResponse, onItemClickListener: (item: RepoResponse) -> Un
                     Text(
                         text = item.description.alternate(),
                         modifier = Modifier.padding(top = dimensionResource(id = R.dimen.size_16)),
-                        color = colorResource(id = R.color.gray),
+                        color = MaterialTheme.colors.secondaryVariant,
                         style = MaterialTheme.typography.subtitle1,
                         overflow = TextOverflow.Ellipsis,
                         minLines = LINE_2,

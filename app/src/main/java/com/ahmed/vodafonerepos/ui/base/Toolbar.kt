@@ -4,8 +4,11 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import com.ahmed.vodafonerepos.R
+import com.ahmed.vodafonerepos.ui.theme.Black
+import com.ahmed.vodafonerepos.ui.theme.White
 
 @Composable
 fun Toolbar(
@@ -18,7 +21,7 @@ fun Toolbar(
             Text(
                 text = title,
                 style = MaterialTheme.typography.body1.copy(
-                    color = MaterialTheme.colors.secondary,
+                    color = White,
                     fontWeight = FontWeight.SemiBold
                 )
             )
@@ -30,8 +33,8 @@ fun Toolbar(
                 }
             }
         },
-        backgroundColor = Color.Black,
-        contentColor = Color.White
+        backgroundColor = Black,
+        contentColor = White
     )
 
 }
